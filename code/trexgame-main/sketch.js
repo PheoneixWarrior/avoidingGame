@@ -1,13 +1,12 @@
 var gamestate = 1
-//23 b vertical
-//14 b horizontal
-//8 r vertical
-//11 r horizontal
+var database
+var highScore = 0
 var score = 0
-var cps,die,hat,playerimg
+var cps,die,hat,playerimg,endgame
 function preload(){
   cps = loadSound("checkPoint.mp3")
   die = loadSound("die.mp3")
+  endgame = loadSound("0002824.mp3")
   hat = loadImage("hat.png")
   playerimg = loadImage("player.png")
 
@@ -21,6 +20,7 @@ player = createSprite(400, 200, 10, 10);
 player.shapeColor = "violet"
 player.addImage(playerimg)
 player.scale = 0.25
+database = firebase.database();
 
 stickGroup = new Group()
 
@@ -167,6 +167,14 @@ function draw() {
   fill("black")
   textSize(30)
   text(score,350,30)
+  fill("blue")
+  text(highScore,350,60)
+  getHighScore()
+  if(score>highScore){
+    highScore = score
+    updateHighScore(highScore)
+  }
+
   player.bounceOff(border1)
   player.bounceOff(border2)
   player.bounceOff(border3)
@@ -342,9 +350,11 @@ function draw() {
   b15.bounceOff(box2)
   b15.bounceOff(box3)
   b15.bounceOff(box4)
+  
 
 if(gamestate ===1){
   score = Math.round(frameCount%6000)
+  updateScore(score)
   if(score >6000){
 gamestate = 3
   }
@@ -406,6 +416,7 @@ gamestate = 3
   fill("green")
   textSize(30)
   text("GAME OVER", 350, 350)
+  endgame.play();
   }
   if(gamestate ===3){
     fill("blue")
@@ -413,13 +424,31 @@ gamestate = 3
     textFont("Georgia")
     text("You Won!", 350, 350)
     }
-
-
-
-
-
-  
-
+ 
   drawSprites();
  
+}
+
+function getScore(){
+  var scoreRef = database.ref('score');
+  scoreRef.on("value",(data)=>{
+    score = data.val();
+  })
+}
+
+function updateScore(time){
+  database.ref('/').update({
+    score: time
+  });
+}
+function getHighScore(){
+  var highscoreRef = database.ref('highScore');
+  highscoreRef.on("value",(data)=>{
+    highScore = data.val();
+  })
+}
+function updateHighScore(hs){
+  database.ref('/').update({
+    highScore: hs
+  });
 }

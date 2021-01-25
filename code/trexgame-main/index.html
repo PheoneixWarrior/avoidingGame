@@ -9,6 +9,25 @@
   </head>
   <body>
       <script src="sketch.js"></script>
-  
+      <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-database.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+           https://firebase.google.com/docs/web/setup#available-libraries -->
+      
+      <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAj2golwXn7Hd50XM4Pzji7LmnHQIXmnps",
+          authDomain: "avoidinggame.firebaseapp.com",
+          databaseURL: "https://avoidinggame-default-rtdb.firebaseio.com",
+          projectId: "avoidinggame",
+          storageBucket: "avoidinggame.appspot.com",
+          messagingSenderId: "942032837331",
+          appId: "1:942032837331:web:5e92ca721e393af1989226"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
 
 </body></html>
